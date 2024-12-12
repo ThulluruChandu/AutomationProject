@@ -114,6 +114,7 @@ public class Page {
 
     public void updateUserName() {
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.findElement(UserName).click();
         driver.findElement(UserName).clear();
         driver.findElement(UserName).sendKeys("Chandu Thulluru");

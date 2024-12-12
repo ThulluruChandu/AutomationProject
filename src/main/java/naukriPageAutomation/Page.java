@@ -1,6 +1,7 @@
 package naukriPageAutomation;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -124,8 +125,18 @@ public class Page {
     }
 
     public void logOut() {
+
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.findElement(MainMenu).click();
+
+        try {
+            WebElement element = driver.findElement(By.xpath("//div[@class='nI-gNb-drawer__icon']"));
+            element.click();
+        } catch (ElementClickInterceptedException e) {
+            System.out.println("Click intercepted, trying alternative...");
+            WebElement fallbackElement = driver.findElement(By.xpath("//div[@class='nI-gNb-drawer__bars']")); // or dismiss interfering element
+            fallbackElement.click();
+        }
+
         driver.findElement(LogOut).click();
 
     }
@@ -155,3 +166,5 @@ public class Page {
 //        WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(5));
 //        WebElement Section = wait.until(ExpectedConditions.visibilityOfElementLocated((ResumeHeadLine)));
 //        Section.click();
+
+//        driver.findElement(MainMenu).click();

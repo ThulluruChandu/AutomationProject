@@ -42,6 +42,7 @@ public class NaukriTest {
     public void tearDown() {
         loginPage.logOut();
         driver.quit();
+
     }
 }
 

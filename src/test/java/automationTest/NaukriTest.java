@@ -42,8 +42,7 @@ public class NaukriTest {
     @AfterMethod
     public void tearDown() {
 
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-//        loginPage.logOut();
+        loginPage.logOut();
         driver.quit();
     }
 }

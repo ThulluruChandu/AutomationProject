@@ -124,10 +124,8 @@ public class Page {
     }
 
     public void logOut() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='nI-gNb-drawer__icon']")));
-        element.click();
-//        driver.findElement(MainMenu).click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.findElement(MainMenu).click();
         driver.findElement(LogOut).click();
 
     }

@@ -24,7 +24,7 @@ public class NaukriTest {
     }
 
     @Test
-    public void enterValidUsernameAndPassword() {
+    public void enterValidUsernameAndPassword() throws InterruptedException {
         loginPage.clickOnLogin();
         loginPage.enterEmailId();
         loginPage.enterPassword();

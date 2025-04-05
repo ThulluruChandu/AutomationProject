@@ -106,7 +106,7 @@ public class Page {
         resumeSection.sendKeys(resumePath);
     }
 
-    public void updateUserName() {
+    public void updateUserName() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         WebElement userNameElement = wait.until(ExpectedConditions.elementToBeClickable(UserName));
@@ -115,6 +115,7 @@ public class Page {
         userNameElement.click();
 
         // Ensure the field is cleared properly
+        Thread.sleep(3000);
         userNameElement.clear();
 
         // Verify that the field has been cleared (particularly for edge cases)

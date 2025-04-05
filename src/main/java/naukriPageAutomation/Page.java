@@ -1,9 +1,6 @@
 package naukriPageAutomation;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.ElementClickInterceptedException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -24,10 +21,6 @@ public class Page {
 
     private By ClickOnEditButton = By.xpath("//em[text()='editOneTheme']");
 
-    private By ClickOnLocationButton = By.xpath("//input[@placeholder='Tell us about your current location']");
-
-    private By ClickOnUpdateKeySkillsButton = By.xpath("//span[text()='Key skills']/following-sibling::span[text()='editOneTheme']");
-
     private By ClickOnSaveButton = By.id("saveBasicDetailsBtn");
 
     private By MainMenu = By.xpath("//div[@class='nI-gNb-drawer__icon']");
@@ -36,7 +29,7 @@ public class Page {
 
     private By LogOut = By.xpath("//a[@title='Logout']");
 
-    private By UserName = By.id("name");
+    private By UserName = By.xpath("//*[@id='name']");
 
     private By ResumeHeadLine = By.xpath("//span[text()='Resume headline']/following-sibling::span[text()='editOneTheme']");
 
@@ -114,13 +107,29 @@ public class Page {
     }
 
     public void updateUserName() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.findElement(UserName).click();
-        driver.findElement(UserName).clear();
-        driver.findElement(UserName).sendKeys("Chandu Thulluru");
-        driver.findElement(ClickOnSave).click();
+        WebElement userNameElement = wait.until(ExpectedConditions.elementToBeClickable(UserName));
 
+        // Click on the field to ensure focus
+        userNameElement.click();
+
+        // Ensure the field is cleared properly
+        userNameElement.clear();
+
+        // Verify that the field has been cleared (particularly for edge cases)
+        if (!userNameElement.getAttribute("value").isEmpty()) {
+            System.out.println("Failed to clear the field. Using alternate approach...");
+            userNameElement.sendKeys(Keys.chord(Keys.CONTROL, "a"));  // Select all text
+            userNameElement.sendKeys(Keys.DELETE);                   // Delete it
+        }
+
+        // Enter the new name
+        userNameElement.sendKeys("Chandu Thulluru");
+
+        // Save the changes
+        WebElement saveButton = wait.until(ExpectedConditions.elementToBeClickable(ClickOnSave));
+        saveButton.click();
 
     }
 

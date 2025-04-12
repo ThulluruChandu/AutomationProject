@@ -1,0 +1,35 @@
+ame: Daily Naukri Update
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Runs every day at 4 AM UTC
+  workflow_dispatch:  # Optional manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'  # Or the version you use
+
+      - name: Install Chrome
+        run: |
+          sudo apt update
+          sudo apt install -y wget unzip xvfb
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+
+      - name: Set DISPLAY for Chrome
+        run: |
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1920x1080x24 &
+
+      - name: Run Maven Tests
+        run: mvn clean test

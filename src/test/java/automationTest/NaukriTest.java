@@ -18,16 +18,14 @@ public class NaukriTest {
 
     @BeforeMethod
     public void setLoginPage() {
-        WebDriverManager.chromedriver().setup();
+        WebDriverManager.chromedriver().driverVersion("135.0.7049.84").setup();
         ChromeOptions options = new ChromeOptions();
-         options.addArguments("--headless"); 
-        options.addArguments("window-size=1920x1080"); 
-        options.addArguments("--disable-gpu"); 
-        options.addArguments("--disable-software-rasterizer"); 
-        options.addArguments("--no-sandbox"); 
-        options.addArguments("--disable-dev-shm-usage");
+          options.addArguments("--headless");               // Run in headless mode
+        options.addArguments("--disable-gpu");            // Disable GPU rendering
+        options.addArguments("--window-size=1920x1080");  // Set proper viewport size
+        options.addArguments("--no-sandbox");
         driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
+        // driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://www.naukri.com/");
         loginPage = new Page(driver);

@@ -20,7 +20,7 @@ public class NaukriTest {
     public void setLoginPage() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
-        // options.addArguments("--headless"); 
+         options.addArguments("--headless"); 
         options.addArguments("window-size=1920x1080"); 
         options.addArguments("--disable-gpu"); 
         options.addArguments("--disable-software-rasterizer"); 

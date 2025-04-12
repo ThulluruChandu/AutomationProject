@@ -20,10 +20,12 @@ public class NaukriTest {
     public void setLoginPage() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        options.addArguments("--no-sandbox");
+        options.addArguments("--headless"); 
+        options.addArguments("window-size=1920x1080"); 
+        options.addArguments("--disable-gpu"); 
+        options.addArguments("--disable-software-rasterizer"); 
+        options.addArguments("--no-sandbox"); 
         options.addArguments("--disable-dev-shm-usage");
-         options.addArguments("window-size=1920x1080");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);

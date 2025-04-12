@@ -23,6 +23,7 @@ public class NaukriTest {
         options.addArguments("--headless");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
+         options.addArguments("window-size=1920x1080");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -53,24 +54,3 @@ public class NaukriTest {
     }
 }
 
-
-//--------------------------------------------------------------------------
-
-//        loginPage.clickOnEdit();
-//        loginPage.clickOnSaveDetails();
-
-//        verify
-//        String expectedUserName = "Chandu Thulluru";
-//        String actualUserName = loginPage.verifyLogin();
-//        Assert.assertEquals(actualUserName, expectedUserName, "Logeed-in username does not macth");
-
-//update basic details
-//        loginPage.clickOnEdit();
-//        loginPage.clickOnLocationUpdate();
-
-//        update Key Skills
-//        loginPage.clickOnKeySkillsUpdate();
-
-//        update Resume Head line
-
-//        loginPage.clickOnUpdateResumeHeadLine();

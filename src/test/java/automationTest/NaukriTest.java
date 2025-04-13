@@ -5,6 +5,8 @@ import naukriPageAutomation.Page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -18,12 +20,15 @@ public class NaukriTest {
 
     @BeforeMethod
     public void setLoginPage() {
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        driver = new ChromeDriver(options);
+//        WebDriverManager.edgedriver().driverVersion("135.0.3179.54").setup();
+//        EdgeOptions options = new EdgeOptions();
+//        options.addArguments("--headless"); // Enable headless mode
+//        options.addArguments("window-size=1920x1080"); // Set screen size
+//        options.addArguments("--disable-gpu"); // Disable GPU rendering
+//        options.addArguments("--disable-software-rasterizer"); // Avoid soft rendering issues
+//        options.addArguments("--no-sandbox"); // Required for some environments
+//        options.addArguments("--disable-dev-shm-usage");
+        driver = new EdgeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://www.naukri.com/");
@@ -36,7 +41,6 @@ public class NaukriTest {
         loginPage.enterEmailId();
         loginPage.enterPassword();
         loginPage.clickOnLoginButton();
-
 //       update basic name details
         loginPage.navigateProfile();
         loginPage.clickOnEdit();

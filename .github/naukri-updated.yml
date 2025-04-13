@@ -2,7 +2,7 @@ name: Daily Naukri Update
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Runs every day at 4 AM UTC
+    # - cron: '*/5 * * * *'  # Runs every day at 4 AM UTC
   workflow_dispatch:  # Optional manual trigger
 
 jobs:
@@ -32,4 +32,5 @@ jobs:
           Xvfb :99 -screen 0 1920x1080x24 &
 
       - name: Run Maven Tests
+        run: mvn clean install
         run: mvn clean test

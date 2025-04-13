@@ -28,7 +28,7 @@ public class NaukriTest {
 //        options.addArguments("--disable-software-rasterizer"); // Avoid soft rendering issues
 //        options.addArguments("--no-sandbox"); // Required for some environments
 //        options.addArguments("--disable-dev-shm-usage");
-        driver = new EdgeDriver();
+        driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://www.naukri.com/");

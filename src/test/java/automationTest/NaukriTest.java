@@ -35,6 +35,7 @@ public class NaukriTest {
         loginPage = new Page(driver);
     }
 
+
     @Test
     public void enterValidUsernameAndPassword() throws InterruptedException {
         loginPage.clickOnLogin();

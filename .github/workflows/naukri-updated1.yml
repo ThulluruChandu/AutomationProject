@@ -1,35 +1,38 @@
-name: Daily Naukri Update
+name: Selenium Tests Workflow
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'  # Runs every day at 4 AM UTC
-  workflow_dispatch:  # Optional manual trigger
+  push: # Run tests on every push to GitHub
+    branches:
+      - main # Change to your branch name if needed
+  pull_request: # Run tests on pull requests
 
 jobs:
-  build:
+  selenium-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout the code
+      uses: actions/checkout@v3 # Checks out your code from the repository
 
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'  # Or the version you use
+    - name: Setup Chrome and ChromeDriver
+      run: |
+        # Install Google Chrome v135
+        sudo apt-get update
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt install -y ./google-chrome-stable_current_amd64.deb
+        google-chrome --version # Verify installed version
+        
+        # Install ChromeDriver v135
+        wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/135.0.7049.84/linux64/chromedriver-linux64.zip
+        sudo apt-get install -y unzip
+        unzip chromedriver-linux64.zip
+        sudo mv chromedriver /usr/local/bin/
+        chromedriver --version # Verify ChromeDriver version
 
-      - name: Install Chrome
-        run: |
-          sudo apt update
-          sudo apt install -y wget unzip xvfb
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17' # Ensures you use Java 17
 
-      - name: Set DISPLAY for Chrome
-        run: |
-          export DISPLAY=:99
-          Xvfb :99 -screen 0 1920x1080x24 &
-
-      - name: Run Maven Tests
-        run: mvn clean test
+    - name: Run Tests
+      run: mvn clean test

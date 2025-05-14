@@ -1,12 +1,9 @@
 package automationTest;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import naukriPageAutomation.Page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -20,14 +17,7 @@ public class NaukriTest {
 
     @BeforeMethod
     public void setLoginPage() {
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless"); // Enable headless mode
-        options.addArguments("--window-size=1920x1080"); // Set screen size
-        options.addArguments("--disable-gpu"); // Disable GPU rendering
-        options.addArguments("--no-sandbox"); // Required for some environments
-        options.addArguments("--disable-dev-shm-usage"); // Avoid issues with shared memory
-        driver = new ChromeDriver(options); // Use headless browser configuration
+        driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://www.naukri.com/");

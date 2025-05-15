@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.time.Instant;
 
 public class Page {
 
@@ -41,6 +42,7 @@ public class Page {
 
 
     public void clickOnLogin() {
+
 
 //        WebElement loginLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Login')]")));
         driver.findElement(loginButton).click();

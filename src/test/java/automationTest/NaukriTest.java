@@ -26,8 +26,8 @@ public class NaukriTest {
         WebDriver driver = new ChromeDriver(options);
 //        driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://www.naukri.com/");
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         loginPage = new Page(driver);
     }
 

@@ -11,7 +11,7 @@ public class Page {
 
     private WebDriver driver;
 
-    private By loginButton = By.xpath("//a[text()='Login']");
+    private By loginButton = By.xpath("//a[contains(text(), 'Login')]");
     private By enterEmail = By.xpath("//input[@placeholder='Enter your active Email ID / Username']");
     private By enterPassword = By.xpath("//input[@placeholder='Enter your password']");
     private By ClickOnLogin = By.xpath("//button[text()='Login']");
@@ -41,6 +41,8 @@ public class Page {
 
 
     public void clickOnLogin() {
+
+//        WebElement loginLink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),'Login')]")));
         driver.findElement(loginButton).click();
     }
 

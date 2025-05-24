@@ -11,6 +11,7 @@ public class NaukriTest {
         options.addArguments("--headless");
         options.addArguments("--disable-gpu");
         options.addArguments("--no-sandbox");
+        options.addArguments("--user-data-dir=/tmp/chrome-user-data");
         System.setProperty("webdriver.chrome.driver", "src/main/resources/bin/chromedriver.exe");
         WebDriver driver = new ChromeDriver(options);
         return driver;

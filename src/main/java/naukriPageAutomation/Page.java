@@ -151,30 +151,3 @@ public class Page {
 
     }
 }
-
-
-//-------------------------------------------------------------------------------------------------------------
-
-
-//        WebElement element = driver.findElement(By.xpath("//form[@name='resumeHeadlineForm']"));
-//        driver.switchTo().frame(element);
-
-//        WebElement element = driver.findElement(ClickOnUpdateKeySkillsButton);
-//        JavascriptExecutor js = (JavascriptExecutor) driver;
-//        js.executeScript("arguments[0].click();",element);
-//        driver.findElement(ClickOnUpdateKeySkillsButton).click();
-
-
-//        driver.findElement(CurrencyUpdate).clear();
-//        driver.findElement(CurrencyUpdate).sendKeys("655000");
-
-
-//        driver.findElement(ClickOnLocationButton).sendKeys("Hyderabad, Telangana");
-//      driver.findElement(By.id("resumeHeadlineTxt")).sendKeys("Software Test Automation Engineer with 3+ Years of Experience in Automation Testing");
-
-
-//        WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(5));
-//        WebElement Section = wait.until(ExpectedConditions.visibilityOfElementLocated((ResumeHeadLine)));
-//        Section.click();
-
-//        driver.findElement(MainMenu).click();

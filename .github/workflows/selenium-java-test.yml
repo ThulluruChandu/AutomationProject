@@ -1,62 +1,44 @@
-name: Selenium Integration Test Workflow
+name: Selenium Integration Tests
 
-# Trigger the workflow on new branch push or pull request
 on:
   push:
     branches:
-      - "*" # Trigger on pushes to any branch
-      - "!master" # Exclude master branch
+      - "*" # Runs on all branches except master
+      - "!master"
   pull_request:
     branches:
-      - master # Trigger on PRs targeting master branch
+      - master
 
 jobs:
   selenium-tests:
-    name: Run Selenium Tests on Headless Chrome
-    runs-on: ubuntu-latest # Use a Ubuntu environment
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Java
       - name: Setup JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: '17' # Specify JDK version to match what your code expects
+          java-version: '17'
           distribution: 'temurin'
 
-      # Step 3: Download and Set Up ChromeDriver
-      - name: Setup ChromeDriver
-        uses: nanasess/setup-chromedriver@v1
-        with:
-          chromedriver-version: latest # Install the latest ChromeDriver version
-
-      # Step 4: Install Google Chrome
-      - name: Setup Chrome
-        uses: browser-actions/setup-chrome@v3
-        with:
-          chrome-version: latest # Install the latest Chrome browser version
-
-      # Step 5: Cache Maven Dependencies (Optional)
-      - name: Cache Maven Repository
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven
-
-      # Step 6: Build and Run Tests
-      - name: Build with Maven and Run Selenium Tests
+      - name: Install Google Chrome
         run: |
-          mvn verify -Dwebdriver.chrome.driver=$(which chromedriver)
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
 
-      # (Optional) Step 7: Archive Test Results
-      - name: Archive Test Reports
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-reports
-          path: target/surefire-reports/
+      - name: Install ChromeDriver dynamically
+        run: |
+          CHROME_VERSION=$(google-chrome --version | cut -d' ' -f3 | cut -d'.' -f1)
+          echo "Chrome version: $CHROME_VERSION"
+          CHROMEDRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
+          echo "ChromeDriver version: $CHROMEDRIVER_VERSION"
+          wget -q https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/bin/
+          chmod +x /usr/bin/chromedriver
+
+      - name: Build Maven Project and Run Tests
+        run: |
+          mvn clean test

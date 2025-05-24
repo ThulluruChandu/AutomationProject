@@ -3,11 +3,11 @@ name: Selenium Integration Tests
 on:
   push:
     branches:
-      - "*" # Runs on all branches, except master
+      - "*"     # Trigger on all branches except master
       - "!master"
   pull_request:
     branches:
-      - master
+      - master  # Trigger on PRs against master
 
 jobs:
   selenium-tests:
@@ -23,30 +23,29 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Install Google Chrome
+      - name: Debug Chrome Installation
         run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-          echo "Installed Google Chrome Version: $(google-chrome --version)"
+          echo "Checking installed Chrome version..."
+          which google-chrome || echo "Google Chrome not found."
+          google-chrome --version || echo "Failed to get Chrome version."
 
       - name: Install ChromeDriver dynamically
         run: |
-          # Parse major Chrome version correctly
-          CHROME_VERSION=$(google-chrome --version | sed -E 's/^Google Chrome ([0-9]+)\..*$/\1/')
+          # Parse major Chrome version
+          echo "Full Chrome Version: $(google-chrome --version)"
+          CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d. -f1)
           if [ -z "$CHROME_VERSION" ]; then
             echo "Failed to parse Chrome version. Exiting."
             exit 1
           fi
-
           echo "Detected Chrome Major Version: $CHROME_VERSION"
 
-          # Fetch ChromeDriver version compatible with Chrome
+          # Fetch ChromeDriver version
           CHROMEDRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
           if [ -z "$CHROMEDRIVER_VERSION" ]; then
             echo "Failed to retrieve ChromeDriver version for Chrome $CHROME_VERSION. Exiting."
             exit 1
           fi
-
           echo "Detected ChromeDriver Version: $CHROMEDRIVER_VERSION"
 
           # Download ChromeDriver
@@ -54,6 +53,12 @@ jobs:
           unzip -o chromedriver_linux64.zip
           sudo mv chromedriver /usr/bin/
           chmod +x /usr/bin/chromedriver
+
+      - name: Debug ChromeDriver Installation
+        run: |
+          echo "Checking installed ChromeDriver version..."
+          which chromedriver || echo "ChromeDriver not found."
+          chromedriver --version || echo "Failed to get ChromeDriver version."
 
       - name: Build Maven Project and Run Tests
         run: |

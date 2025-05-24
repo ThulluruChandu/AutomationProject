@@ -3,7 +3,7 @@ name: Selenium Integration Tests
 on:
   push:
     branches:
-      - "*" # Runs on all branches except master
+      - "*" # Runs on all branches, except master
       - "!master"
   pull_request:
     branches:
@@ -27,19 +27,31 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
+          echo "Installed Google Chrome Version: $(google-chrome --version)"
 
       - name: Install ChromeDriver dynamically
         run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+' | head -1)
-          echo "Chrome version: $CHROME_VERSION"
+          # Parse major Chrome version correctly
+          CHROME_VERSION=$(google-chrome --version | sed -E 's/^Google Chrome ([0-9]+)\..*$/\1/')
+          if [ -z "$CHROME_VERSION" ]; then
+            echo "Failed to parse Chrome version. Exiting."
+            exit 1
+          fi
+
+          echo "Detected Chrome Major Version: $CHROME_VERSION"
+
+          # Fetch ChromeDriver version compatible with Chrome
           CHROMEDRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
           if [ -z "$CHROMEDRIVER_VERSION" ]; then
             echo "Failed to retrieve ChromeDriver version for Chrome $CHROME_VERSION. Exiting."
             exit 1
           fi
-          echo "ChromeDriver version: $CHROMEDRIVER_VERSION"
-          wget https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
+
+          echo "Detected ChromeDriver Version: $CHROMEDRIVER_VERSION"
+
+          # Download ChromeDriver
+          wget -q https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+          unzip -o chromedriver_linux64.zip
           sudo mv chromedriver /usr/bin/
           chmod +x /usr/bin/chromedriver
 

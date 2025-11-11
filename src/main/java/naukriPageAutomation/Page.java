@@ -66,6 +66,7 @@ public class Page {
     }
 
     public void navigateProfile() {
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.findElement(MainMenu).click();
         driver.findElement(ClickViewProfile).click();
     }

@@ -46,12 +46,12 @@ public class Page {
     }
 
     public void enterEmailId() {
-        driver.findElement(enterEmail).sendKeys("thulluruchandu333@gmail.com");
+        driver.findElement(enterEmail).sendKeys("y_kishore@outlook.com");
 
     }
 
     public void enterPassword() {
-        driver.findElement(enterPassword).sendKeys("Ch@ndu9010");
+        driver.findElement(enterPassword).sendKeys("kishore9");
 
     }
 
@@ -128,7 +128,7 @@ public class Page {
         }
 
         // Enter the new name
-        userNameElement.sendKeys("Chandu Thulluru");
+        userNameElement.sendKeys("KISHORE YERROLLA");
 
         // Save the changes
         WebElement saveButton = wait.until(ExpectedConditions.elementToBeClickable(ClickOnSave));

@@ -128,7 +128,7 @@ public class Page {
         }
 
         // Enter the new name
-        userNameElement.sendKeys("KISHORE YERROLL");
+        userNameElement.sendKeys("KISHORE YERROLLA");
 
         // Save the changes
         WebElement saveButton = wait.until(ExpectedConditions.elementToBeClickable(ClickOnSave));

@@ -21,52 +21,48 @@ public class Page {
     private By VerifyPage = By.xpath("//div[@title='Chandu Thulluru']");
 
     private By ClickOnEditButton = By.xpath("//em[text()='editOneTheme']");
-
     private By ClickOnSaveButton = By.id("saveBasicDetailsBtn");
-
     private By MainMenu = By.xpath("//div[@class='nI-gNb-drawer__icon']");
-
     private By ClickOnSave = By.xpath("//button[text()='Save']");
-
     private By LogOut = By.xpath("//a[@title='Logout']");
-
     private By UserName = By.xpath("//*[@id='name']");
-
     private By ResumeHeadLine = By.xpath("//span[text()='Resume headline']/following-sibling::span[text()='editOneTheme']");
-
     private By ResumeHeadLineTextArea = By.xpath("//textarea[@class='resumeHeadlineTxt materialize-textarea']");
 
     public Page(WebDriver driver) {
         this.driver = driver;
     }
 
-
     public void clickOnLogin() {
         driver.findElement(loginButton).click();
     }
 
-    public void enterEmailId() {
-        driver.findElement(enterEmail).sendKeys("y_kishore@outlook.com");
-
+    public void enterEmailId(String email) {
+        driver.findElement(enterEmail).sendKeys(email);
     }
 
-    public void enterPassword() {
-        driver.findElement(enterPassword).sendKeys("kishore9");
-
+    public void enterPassword(String password) {
+        driver.findElement(enterPassword).sendKeys(password);
     }
 
     public void clickOnLoginButton() {
         driver.findElement(ClickOnLogin).click();
     }
 
-    public String verifyLogin() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement userName = wait.until(ExpectedConditions.visibilityOfElementLocated(VerifyPage));
-
-        return driver.findElement((By) userName).getText();
-    }
-
     public void navigateProfile() {
+
+        // Handle modal popup if present
+        try {
+            // Wait briefly for the popup close button to appear
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            By closePopupButton = By.xpath("//div[@class='crossIcon chatBot chatBot-ic-cross']");
+            WebElement closeBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(closePopupButton));
+            closeBtn.click();
+        } catch (TimeoutException e) {
+            // Popup not present, continue
+        } catch (NoSuchElementException e) {
+            // Popup not present, continue
+        }
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.findElement(MainMenu).click();
         driver.findElement(ClickViewProfile).click();
@@ -76,107 +72,30 @@ public class Page {
         driver.findElement(ClickOnEditButton).click();
     }
 
-    public void clickOnLocationUpdate() {
-
-        driver.findElement(ClickOnSaveButton).click();
-
-    }
-
-    public void clickOnUpdateResumeHeadLine() throws InterruptedException {
-
-        driver.wait(2);
-        driver.findElement(ResumeHeadLine).click();
-        driver.findElement(ResumeHeadLineTextArea).clear();
-        driver.findElement(ResumeHeadLineTextArea).sendKeys("Software Test Automation Engineer with 3 Years of Experience in Automation Testing");
-        ;
-        driver.findElement(ClickOnSave).click();
-
-
-    }
-
-    public void clickOnSaveDetails() {
-
-        driver.findElement(ClickOnSaveButton).click();
-
-    }
-
-    public void updateResume() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement resumeSection = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@value='Update resume']")));
-        resumeSection.click();
-        String resumePath = Paths.get("src/main/resources/resumeFile/Chandu.pdf").toAbsolutePath().toString();
-        resumeSection.sendKeys(resumePath);
-    }
-
-    public void updateUserName() throws InterruptedException {
+    public void updateUserName(String newName) throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
         WebElement userNameElement = wait.until(ExpectedConditions.elementToBeClickable(UserName));
-
-        // Click on the field to ensure focus
         userNameElement.click();
-
-        // Ensure the field is cleared properly
         Thread.sleep(3000);
         userNameElement.clear();
-
-        // Verify that the field has been cleared (particularly for edge cases)
         if (!userNameElement.getAttribute("value").isEmpty()) {
-            System.out.println("Failed to clear the field. Using alternate approach...");
-            userNameElement.sendKeys(Keys.chord(Keys.CONTROL, "a"));  // Select all text
-            userNameElement.sendKeys(Keys.DELETE);                   // Delete it
+            userNameElement.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+            userNameElement.sendKeys(Keys.DELETE);
         }
-
-        // Enter the new name
-        userNameElement.sendKeys("KISHORE YERROLLA");
-
-        // Save the changes
+        userNameElement.sendKeys(newName);
         WebElement saveButton = wait.until(ExpectedConditions.elementToBeClickable(ClickOnSave));
         saveButton.click();
-
     }
 
     public void logOut() {
-
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
         try {
-            WebElement element = driver.findElement(By.xpath("//div[@class='nI-gNb-drawer__icon']"));
+            WebElement element = driver.findElement(MainMenu);
             element.click();
         } catch (ElementClickInterceptedException e) {
-            System.out.println("Click intercepted, trying alternative...");
-            WebElement fallbackElement = driver.findElement(By.xpath("//div[@class='nI-gNb-drawer__bars']")); // or dismiss interfering element
+            WebElement fallbackElement = driver.findElement(By.xpath("//div[@class='nI-gNb-drawer__bars']"));
             fallbackElement.click();
         }
-
         driver.findElement(LogOut).click();
-
     }
 }
-
-
-//-------------------------------------------------------------------------------------------------------------
-
-
-//        WebElement element = driver.findElement(By.xpath("//form[@name='resumeHeadlineForm']"));
-//        driver.switchTo().frame(element);
-
-//        WebElement element = driver.findElement(ClickOnUpdateKeySkillsButton);
-//        JavascriptExecutor js = (JavascriptExecutor) driver;
-//        js.executeScript("arguments[0].click();",element);
-//        driver.findElement(ClickOnUpdateKeySkillsButton).click();
-
-
-//        driver.findElement(CurrencyUpdate).clear();
-//        driver.findElement(CurrencyUpdate).sendKeys("655000");
-
-
-//        driver.findElement(ClickOnLocationButton).sendKeys("Hyderabad, Telangana");
-//      driver.findElement(By.id("resumeHeadlineTxt")).sendKeys("Software Test Automation Engineer with 3+ Years of Experience in Automation Testing");
-
-
-//        WebDriverWait wait =new WebDriverWait(driver, Duration.ofSeconds(5));
-//        WebElement Section = wait.until(ExpectedConditions.visibilityOfElementLocated((ResumeHeadLine)));
-//        Section.click();
-
-//        driver.findElement(MainMenu).click();

@@ -54,7 +54,7 @@ public class Page {
         // Handle modal popup if present
         try {
             // Wait briefly for the popup close button to appear
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
             By closePopupButton = By.xpath("//div[@class='crossIcon chatBot chatBot-ic-cross']");
             WebElement closeBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(closePopupButton));
             closeBtn.click();
@@ -73,7 +73,7 @@ public class Page {
     }
 
     public void updateUserName(String newName) throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         WebElement userNameElement = wait.until(ExpectedConditions.elementToBeClickable(UserName));
         userNameElement.click();
         Thread.sleep(3000);
@@ -88,7 +88,7 @@ public class Page {
     }
 
     public void logOut() {
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
         try {
             WebElement element = driver.findElement(MainMenu);
             element.click();

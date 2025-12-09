@@ -63,9 +63,10 @@ public class Page {
         } catch (NoSuchElementException e) {
             // Popup not present, continue
         }
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         driver.findElement(MainMenu).click();
-        driver.findElement(ClickViewProfile).click();
+        WebElement ProfileElement = wait.until(ExpectedConditions.elementToBeClickable(ClickViewProfile));
+        ProfileElement.click();
     }
 
     public void clickOnEdit() {
@@ -87,15 +88,16 @@ public class Page {
         saveButton.click();
     }
 
-    public void logOut() {
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+      public void logOut() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         try {
-            WebElement element = driver.findElement(MainMenu);
+            WebElement element = wait.until(ExpectedConditions.elementToBeClickable(MainMenu));
             element.click();
         } catch (ElementClickInterceptedException e) {
-            WebElement fallbackElement = driver.findElement(By.xpath("//div[@class='nI-gNb-drawer__bars']"));
+            WebElement fallbackElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='nI-gNb-drawer__bars']")));
             fallbackElement.click();
         }
-        driver.findElement(LogOut).click();
+        WebElement logoutElement = wait.until(ExpectedConditions.elementToBeClickable(LogOut));
+        logoutElement.click();
     }
 }

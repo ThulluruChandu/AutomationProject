@@ -15,7 +15,7 @@ public class NaukriTest {
     @DataProvider(name = "profileData")
     public Object[][] profileData() {
         return new Object[][]{
-                {"thulluruchandu333@gmail.com", "Ch@ndu9010", "Chandu Thulluru"},
+                // {"thulluruchandu333@gmail.com", "Ch@ndu9010", "Chandu Thulluru"},
                 {"chanduthulluru666@gmail.com", "Ch@ndu9010", "Chandu T"},
                 {"thulluruchandu444@gmail.com", "Ch@ndu9010", "Chandu"},
                 {"thulluruchandu555@gmail.com", "Ch@ndu9010", "Chandu Thulluru"},

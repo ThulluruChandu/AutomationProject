@@ -89,7 +89,7 @@ public class Page {
     }
 
       public void logOut() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         try {
             WebElement element = wait.until(ExpectedConditions.elementToBeClickable(MainMenu));
             element.click();
@@ -105,7 +105,9 @@ public class Page {
             element.click();
         }
 
-        // Now click the logout button
+        // Wait for overlay to disappear before clicking logout
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.ltLayer.open")));
+
         WebElement logoutElement = wait.until(ExpectedConditions.elementToBeClickable(LogOut));
         logoutElement.click();
     }

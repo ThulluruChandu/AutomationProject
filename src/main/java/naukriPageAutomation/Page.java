@@ -89,14 +89,23 @@ public class Page {
     }
 
       public void logOut() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         try {
             WebElement element = wait.until(ExpectedConditions.elementToBeClickable(MainMenu));
             element.click();
         } catch (ElementClickInterceptedException e) {
-            WebElement fallbackElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='nI-gNb-drawer__bars']")));
+            // Close the popup if it appears
+            WebElement fallbackElement = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//div[@class='profile-updated-container phase-3']/preceding-sibling::div[contains(@class,'crossLayer')]")
+            ));
             fallbackElement.click();
+
+            // Retry clicking the main menu after closing the popup
+            WebElement element = wait.until(ExpectedConditions.elementToBeClickable(MainMenu));
+            element.click();
         }
+
+        // Now click the logout button
         WebElement logoutElement = wait.until(ExpectedConditions.elementToBeClickable(LogOut));
         logoutElement.click();
     }

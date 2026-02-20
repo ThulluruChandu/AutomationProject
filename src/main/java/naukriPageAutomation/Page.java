@@ -90,17 +90,18 @@ public class Page {
 
       public void logOut() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        // Always try to close the popup/overlay if present
+        closeProfileUpdatedPopupIfPresent(wait);
+
+        // Click main menu
         try {
             WebElement element = wait.until(ExpectedConditions.elementToBeClickable(MainMenu));
             element.click();
         } catch (ElementClickInterceptedException e) {
-            // Close the popup if it appears
-            WebElement fallbackElement = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//div[@class='profile-updated-container phase-3']/preceding-sibling::div[contains(@class,'crossLayer')]")
-            ));
-            fallbackElement.click();
-
-            // Retry clicking the main menu after closing the popup
+            // Try to close popup again if it appears
+            closeProfileUpdatedPopupIfPresent(wait);
+            // Retry clicking main menu
             WebElement element = wait.until(ExpectedConditions.elementToBeClickable(MainMenu));
             element.click();
         }
@@ -108,7 +109,21 @@ public class Page {
         // Wait for overlay to disappear before clicking logout
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.ltLayer.open")));
 
+        // Click logout
         WebElement logoutElement = wait.until(ExpectedConditions.elementToBeClickable(LogOut));
         logoutElement.click();
+    }
+
+    private void closeProfileUpdatedPopupIfPresent(WebDriverWait wait) {
+        try {
+            List<WebElement> popups = driver.findElements(By.xpath("//div[@class='profile-updated-container phase-3']/preceding-sibling::div[contains(@class,'crossLayer')]"));
+            if (!popups.isEmpty() && popups.get(0).isDisplayed()) {
+                popups.get(0).click();
+                // Optionally, wait for the popup to disappear
+                wait.until(ExpectedConditions.invisibilityOf(popups.get(0)));
+            }
+        } catch (Exception ex) {
+            // Log or ignore if popup is not present
+        }
     }
 }

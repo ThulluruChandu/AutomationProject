@@ -10,7 +10,6 @@
     <packaging>jar</packaging>
     <properties>
         <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
         <!-- Selenium -->

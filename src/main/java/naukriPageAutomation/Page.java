@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Page {
@@ -63,8 +64,9 @@ public class Page {
         } catch (NoSuchElementException e) {
             // Popup not present, continue
         }
-      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         driver.findElement(MainMenu).click();
+//        driver.findElement(ClickViewProfile).click();
         WebElement ProfileElement = wait.until(ExpectedConditions.elementToBeClickable(ClickViewProfile));
         ProfileElement.click();
     }
@@ -88,7 +90,7 @@ public class Page {
         saveButton.click();
     }
 
-      public void logOut() {
+    public void logOut() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         // Always try to close the popup/overlay if present
